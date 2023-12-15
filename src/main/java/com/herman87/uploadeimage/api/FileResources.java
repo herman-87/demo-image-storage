@@ -16,14 +16,14 @@ public class FileResources {
     private final FileService fileService;
 
     @PostMapping("/upload/file")
-    public ResponseEntity<?> uploadImageToFileSystem(@RequestParam("image")MultipartFile file) throws IOException {
+    public ResponseEntity<String> uploadImageToFileSystem(@RequestParam("image")MultipartFile file) throws IOException {
         String uploadImage = fileService.uploadImageToFileSystem(file);
         return ResponseEntity.status(HttpStatus.OK)
                 .body(uploadImage);
     }
 
     @GetMapping("/download/{fileName}")
-    public ResponseEntity<?> downloadImageFromFileSystem(@PathVariable String fileName) throws IOException {
+    public ResponseEntity<byte[]> downloadImageFromFileSystem(@PathVariable("fileName") String fileName) throws IOException {
         byte[] bytes = fileService.downloadImageFromFileSystem(fileName);
         return ResponseEntity.status(HttpStatus.OK)
                 .contentType(MediaType.valueOf("image/png"))
